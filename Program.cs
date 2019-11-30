@@ -16,7 +16,11 @@ namespace ML_HW6
 
         static void Main(string[] args)
         {
-            ReadArgumentsIntoFields(args);
+            if(!ReadArgumentsIntoFields(args))
+            {
+                Console.WriteLine("Exiting due to error");
+                return;
+            }
 
             for(int i = 1; i <= 20; i++)
             {
@@ -45,6 +49,11 @@ namespace ML_HW6
                 Console.Write($" (s{state.StateNum} a{state.CurrentPolicyActionNum} {state.CurrentReward})");
             }
 
+            foreach (State state in states)
+            {
+                state.PreviousReward = state.CurrentReward;
+            }
+
             Console.Write('\n');
         }
 
@@ -56,7 +65,7 @@ namespace ML_HW6
             foreach (Action action in outcomesForAction)
             {
                 // Using First() cause I don't want this to swallow exception and cause incorrect calc
-                summation += action.Prob * states.First(s => s.StateNum == action.Dest).CurrentReward;
+                summation += action.Prob * states.First(s => s.StateNum == action.Dest).PreviousReward;
             }
 
             return summation * discount + state.InitialReward;
@@ -111,6 +120,7 @@ namespace ML_HW6
                     float.TryParse(firstGroups[1], out float reward);
                     state.InitialReward = reward;
                     state.CurrentReward = reward;
+                    state.PreviousReward = reward;
 
                     int.TryParse(firstGroups[0].Substring(1), out int stateNum);
                     state.StateNum = stateNum;

@@ -7,6 +7,7 @@ namespace ML_HW6
     {
         public int StateNum { get; set; }
         public float InitialReward { get; set; }
+        public float PreviousReward { get; set; }
         public float CurrentReward { get; set; }
         public int CurrentPolicyActionNum { get; set; }
         public List<Action> Actions { get; set; }
