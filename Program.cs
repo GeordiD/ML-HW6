@@ -38,6 +38,7 @@ namespace ML_HW6
                     outcomes.Add(GetOutcome(state, i));
                 }
 
+                // Plus one because outcomes list is 0 based while action num are 1 based
                 state.CurrentPolicyActionNum = outcomes.IndexOf(outcomes.Max()) + 1;
                 state.CurrentReward = outcomes.Max();
 
@@ -54,6 +55,7 @@ namespace ML_HW6
 
             foreach (Action action in outcomesForAction)
             {
+                // Using First() cause I don't want this to swallow exception and cause incorrect calc
                 summation += action.Prob * states.First(s => s.StateNum == action.Dest).CurrentReward;
             }
 
